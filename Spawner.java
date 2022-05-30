@@ -17,7 +17,7 @@ public class Spawner {
 	public void tick() {
 		scoreKeep++;
 		
-		if(scoreKeep >= 100) {
+		if(scoreKeep >= 200) {
 			scoreKeep=0;
 			hud.setLevel(hud.getLevel()+1);
 			
@@ -33,26 +33,16 @@ public class Spawner {
 				
 			}
 			else if(hud.getLevel()==5) {
-				handler.addObject(new SmartEnemy(r.nextInt(Game.WIDTH-50), r.nextInt(Game.HEIGHT-50), ID.SmartEnemy, handler));
+				handler.addObject(new FastEnemy(r.nextInt(Game.WIDTH-50), r.nextInt(Game.HEIGHT-50), ID.FastEnemy, handler));
 				
 			}
-			 
+			
 			else if(hud.getLevel()==6) {
 				handler.addObject(new SmartEnemy(r.nextInt(Game.WIDTH-50), r.nextInt(Game.HEIGHT-50), ID.SmartEnemy, handler));
 				
 			}
 			
-			else if(hud.getLevel()==7) {
-				handler.addObject(new FastEnemy(r.nextInt(Game.WIDTH-50), r.nextInt(Game.HEIGHT-50), ID.FastEnemy, handler));
-				
-			}
-			
-			else if(hud.getLevel()==8) {
-				handler.addObject(new SmartEnemy(r.nextInt(Game.WIDTH-50), r.nextInt(Game.HEIGHT-50), ID.SmartEnemy, handler));
-				
-			}
-			
-			else if(hud.getLevel()==10) {
+			else if(hud.getLevel()==9) {
 				handler.clearEnemies();
 				handler.addObject(new Boss1((Game.WIDTH/2)-48, -120, ID.Boss1, handler));
 				// put -120 because we want the boss to spawn from top outside of screen. 

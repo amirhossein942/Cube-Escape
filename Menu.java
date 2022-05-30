@@ -18,10 +18,12 @@ public class Menu extends MouseAdapter{
 	private Game game;
 	private Handler handler;
 	private Random r; 
+	private HUD hud;
 	
-	public Menu(Game game, Handler handler) {
+	public Menu(Game game, Handler handler, HUD hud) {
 		this.game=game;
 		this.handler =handler;
+		this.hud = hud;
 	}
 	
 	public void mousePressed(MouseEvent e) {
@@ -36,7 +38,10 @@ public class Menu extends MouseAdapter{
 			//play button
 			if(mouseOver(mx, my, 210, 150, 200, 64)) {
 				game.gameState = STATE.Game;
-				handler.addObject(new Player(Game.WIDTH/2-32, Game.HEIGHT/2-32, ID.Player, handler)); 
+				handler.addObject(new Player(Game.WIDTH/2-32, Game.HEIGHT/2-32, ID.Player, handler));
+				//to get rid of all the menu cubes when you hit play 
+				handler.clearEnemies();
+				 
 			    handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH-50), r.nextInt(Game.HEIGHT-50), ID.BasicEnemy, handler));
 			}
 			
@@ -57,6 +62,18 @@ public class Menu extends MouseAdapter{
 				game.gameState = STATE.Menu;
 				return;
 			}
+		}
+			//back button for help
+			if(game.gameState == STATE.END) {
+				if(mouseOver(mx, my, 210, 350, 200, 64)) {
+					game.gameState = STATE.Game;
+					hud.setLevel(1);
+					hud.setScore(0);
+					handler.addObject(new Player(Game.WIDTH/2-32, Game.HEIGHT/2-32, ID.Player, handler));
+					handler.clearEnemies();
+					handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH-50), r.nextInt(Game.HEIGHT-50), ID.BasicEnemy, handler));
+					
+				}
 		}
 		
 	
@@ -117,7 +134,7 @@ public class Menu extends MouseAdapter{
 		Font fnt2 = new Font("arial", 1, 30);
 		g.setFont(fnt);
 		g.setColor(Color.white);
-		g.drawString("Welcome to Cube Runner", 50, 70);
+		g.drawString("Welcome to Cube Escape", 50, 70);
 		
 		
 		g.setFont(fnt2);
@@ -155,6 +172,24 @@ public class Menu extends MouseAdapter{
 	            else g.setColor(Color.white);
 			g.drawRect(210, 350, 200, 64);
 			g.drawString("Back", 270, 390);
+		}
+		else if (game.gameState == STATE.END) {
+			Font fnt = new Font("arial", 1, 50);
+			Font fnt2 = new Font("arial", 1, 30);
+			Font fnt3 = new Font("arial", 1, 17);
+			
+			g.setFont(fnt);
+			g.setColor(Color.white);
+			g.drawString("Game Over", 190, 70);
+			
+			g.setFont(fnt3);
+			g.drawString("You lost with a score of " + hud.getScore(), 200, 200);
+			
+			g.setFont(fnt2);
+			  if(back) g.setColor(Color.orange);
+	            else g.setColor(Color.white);
+			g.drawRect(210, 350, 200, 64);
+			g.drawString("Try Again", 245, 390);
 		}
 	}
 	
